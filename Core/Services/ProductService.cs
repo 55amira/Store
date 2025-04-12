@@ -1,4 +1,7 @@
-﻿using Services_Abstractions;
+﻿using AutoMapper;
+using Domain.Contracts;
+using Domain.Models;
+using Services_Abstractions;
 using Shared;
 using System;
 using System.Collections.Generic;
@@ -8,27 +11,40 @@ using System.Threading.Tasks;
 
 namespace Services
 {
-    public class ProductService : IProductService
+    public class ProductService (IUnitOfWork unitOfWork , IMapper mapper) : IProductService
     {
-        public ProductService( )
-        { 
-        }
-        public Task<IEnumerable<ProductResultDto>> GetAllProductsAsync()
+        
+        public async Task<IEnumerable<ProductResultDto>> GetAllProductsAsync()
         {
-            throw new NotImplementedException();
+            // Get All Products Throught ProductRepository 
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync();
+
+            // Mapping IEnumerable<Product> To IEnumerable<ProductResultDto>: Automapper 
+            var result = mapper.Map<IEnumerable<ProductResultDto>>(products);
+
+            return result;
         }
-        public Task<ProductResultDto> GetProductByIdAsync(int id)
+        public async Task<ProductResultDto?> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
+            if (product is null) return null;
+            var result = mapper.Map<ProductResultDto>(product);
+            return result;
+            
         }
-        public Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync()
+        public async Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync()
         {
-            throw new NotImplementedException();
+            var brands = await unitOfWork.GetRepository<ProductBrand, int>().GetAllAsync();
+            var result = mapper.Map<IEnumerable<BrandResultDto>>(brands);
+            return result; 
         }
 
-        public Task<IEnumerable<BrandResultDto>> GetAlltypesAsync()
+        public async Task<IEnumerable<TypeResultDto>> GetAlltypesAsync()
         {
-            throw new NotImplementedException();
+            var Types = await unitOfWork.GetRepository<ProductType, int>().GetAllAsync();
+            var result = mapper.Map<IEnumerable<TypeResultDto>>(Types);
+
+            return result;
         }
 
         

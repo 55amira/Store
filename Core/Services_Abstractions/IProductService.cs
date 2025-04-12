@@ -13,13 +13,13 @@ namespace Services_Abstractions
         Task<IEnumerable<ProductResultDto>> GetAllProductsAsync();
 
         // Get Product By Id
-        Task<ProductResultDto> GetProductByIdAsync(int id);
+        Task<ProductResultDto?> GetProductByIdAsync(int id);
 
         // Get All Brands
         Task<IEnumerable<BrandResultDto>> GetAllBrandsAsync();
 
         // Get All Types
-        Task<IEnumerable<BrandResultDto>> GetAlltypesAsync();
+        Task<IEnumerable<TypeResultDto>> GetAlltypesAsync();
 
     }
 }
