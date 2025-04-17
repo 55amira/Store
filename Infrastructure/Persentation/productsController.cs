@@ -47,7 +47,7 @@ namespace Persentation
 
         }
 
-        [HttpGet("all")]
+        [HttpGet("Brands")]
 
         public async Task<IActionResult> GetAllBrands()
         {
@@ -59,7 +59,7 @@ namespace Persentation
         }
         //byId
 
-        [HttpGet("byId")]
+        [HttpGet("Types")]
 
         public async Task<IActionResult> GetAllTypes()
         {
