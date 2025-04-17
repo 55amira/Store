@@ -47,6 +47,27 @@ namespace Persentation
 
         }
 
+        [HttpGet("all")]
 
+        public async Task<IActionResult> GetAllBrands()
+        {
+            var result = await serviceManager.productService.GetAllBrandsAsync();
+
+            if (result is null) return BadRequest(); // 400 
+            return Ok(result); // 200 
+
+        }
+        //byId
+
+        [HttpGet("byId")]
+
+        public async Task<IActionResult> GetAllTypes()
+        {
+            var result = await serviceManager.productService.GetAlltypesAsync();
+
+            if (result is null) return BadRequest(); // 400 
+            return Ok(result); // 200 
+
+        }
     }
 }

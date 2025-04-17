@@ -3,6 +3,11 @@ using Domain.Contracts;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 using Persistence.Data;
+using Services;
+using Services_Abstractions;
+using System.Threading.Tasks;
+
+using AssemblyMapping= Services.AssemblyReference;
 
 namespace Store_Api
 {
@@ -25,7 +30,9 @@ namespace Store_Api
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefultConnection"));
             });
             builder.Services.AddScoped<IDbInitializer,Iniaitiazer>();   // Alloe DI For IDbInitializer
-
+            builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+            builder.Services.AddAutoMapper(typeof(AssemblyMapping).Assembly);
+            builder.Services.AddScoped<IServiceManager,ServiceManager>();
             var app = builder.Build();
 
             #region Seeding 

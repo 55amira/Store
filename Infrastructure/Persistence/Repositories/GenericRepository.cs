@@ -21,6 +21,14 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool trakChanges = false)
         {
+            if (typeof(TEntity) == typeof(Product))
+            {
+                return trakChanges ?
+                   await _context.Products.Include(P => P.ProductType).Include(P => P.ProductBrand).ToListAsync() as IEnumerable<TEntity>
+                  : await _context.Products.Include(P => P.ProductType).Include(P => P.ProductBrand).AsNoTracking().ToListAsync() as IEnumerable<TEntity>;
+            }
+        
+            
             return trakChanges ?
                    await _context.Set<TEntity>().ToListAsync()
                   :await _context.Set<TEntity>().AsNoTracking().ToListAsync();
@@ -31,6 +39,11 @@ namespace Persistence.Repositories
 
         public async Task<TEntity> GetAsync(TKay Id)
         {
+            if (typeof(TEntity) == typeof(Product))
+            {
+                return await _context.Products.Include(P => P.ProductType).Include(P => P.ProductBrand).FirstOrDefaultAsync( P => P.Id ==Id as int?) as TEntity;
+
+            }
             return await _context.Set<TEntity>().FindAsync();
         }
 
