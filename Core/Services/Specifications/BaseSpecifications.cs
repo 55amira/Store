@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Services.Specifications
 {
-    public class BaseSpecifications<TEntity, TKey> : ISpecifications<TEntity, TKey> where TEntity : BaseEntity<TKey>
+    public class BaseSpecifications<TEntity, Tkey> : ISpecifications<TEntity, Tkey> where TEntity : BaseEntity<Tkey>
     {
 
         public Expression<Func<TEntity, bool>>? Criteria { get; set ; }

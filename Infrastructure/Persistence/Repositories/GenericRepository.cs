@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Persistence.Repositories
 {
-    public class GenericRepository<TEntity, TKay> : IGenericRepository<TEntity, TKay> where TEntity : BaseEntity<TKay>
+    public class GenericRepository<TEntity, Tkey> : IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>
     {
         private readonly StoreDbContext _context;
 
@@ -37,7 +37,7 @@ namespace Persistence.Repositories
             //return await _context.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(TKay Id)
+        public async Task<TEntity> GetAsync(Tkey Id)
         {
             if (typeof(TEntity) == typeof(Product))
             {
@@ -61,17 +61,18 @@ namespace Persistence.Repositories
             _context.Remove(entity); 
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, TKay> spec, bool trakChanges = false)
+        public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecifications<TEntity, Tkey> spec, bool trakChanges = false)
         {
            return await ApplySpecifications(spec).ToListAsync();
         }
 
-        public async Task<TEntity> GetAsync(ISpecifications<TEntity, TKay> spec, TKay Id)
+        public async Task<TEntity?> GetAsync(ISpecifications<TEntity, Tkey> spec)
         {
-           return await ApplySpecifications(spec).FirstOrDefaultAsync();
+            return await ApplySpecifications(spec).FirstOrDefaultAsync();
         }
 
-        private  IQueryable<TEntity> ApplySpecifications (ISpecifications<TEntity,TKay> spec)
+
+        private IQueryable<TEntity> ApplySpecifications (ISpecifications<TEntity,Tkey> spec)
         {
             return  SpecificationEvaluator.GetQuery(_context.Set<TEntity>(), spec);
         }

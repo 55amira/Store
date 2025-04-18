@@ -20,15 +20,12 @@ namespace Persentation
 
         [HttpGet] // GET: /api/Products 
 
-
-        public async Task<IActionResult> GetAllProducts()
+        public async Task<IActionResult> GetAllProducts(int? BrandId , int? TypeId)
         {
-            var result = await serviceManager.productService.GetAllProductsAsync();
+            var result = await serviceManager.productService.GetAllProductsAsync(BrandId, TypeId);
 
             if (result is null) return BadRequest(); // 400 
             return Ok(result); // 200 
-
-
 
 
         }
