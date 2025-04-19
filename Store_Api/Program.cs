@@ -5,6 +5,7 @@ using Persistence;
 using Persistence.Data;
 using Services;
 using Services_Abstractions;
+using Store_Api.Middelware;
 using System.Threading.Tasks;
 
 using AssemblyMapping= Services.AssemblyReference;
@@ -33,6 +34,9 @@ namespace Store_Api
             builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
             builder.Services.AddAutoMapper(typeof(AssemblyMapping).Assembly);
             builder.Services.AddScoped<IServiceManager,ServiceManager>();
+
+
+
             var app = builder.Build();
 
             #region Seeding 
@@ -40,6 +44,8 @@ namespace Store_Api
             var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>(); // Ask CLR Create Object From Iniaitiazer
             await dbInitializer.InitializerAsync(); 
             #endregion
+
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())

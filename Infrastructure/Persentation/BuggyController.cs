@@ -29,7 +29,7 @@ namespace Persentation
         {
             return BadRequest(); // 400
         }
-        [HttpGet("badRequest/[id]")]
+        [HttpGet("badRequest/{id}")]
         public IActionResult GetBadRequest(int id) // validation error
         {
             return BadRequest(); // 400
