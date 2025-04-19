@@ -25,7 +25,7 @@ namespace Persentation
         {
             var result = await serviceManager.productService.GetAllProductsAsync(specParams);
 
-            if (result is null) return BadRequest(); // 400 
+            //if (result is null) return BadRequest(); // 400 
             return Ok(result); // 200 
 
 

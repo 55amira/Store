@@ -1,4 +1,6 @@
-﻿using Shared.ErrorsModels;
+﻿using Azure;
+using Domain.Exceptions;
+using Shared.ErrorsModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Store_Api.Middelware
@@ -27,13 +29,27 @@ namespace Store_Api.Middelware
                 // 2. Set Content Type Code For Response 
                 // 3. Response Object (Body) 
                 // 4. Return Response 
-                context.Response.StatusCode =StatusCodes.Status500InternalServerError ;
+
+
+                //context.Response.StatusCode =StatusCodes.Status500InternalServerError ;
+
                 context.Response.ContentType = "application/json";
+
+
                 var response = new ErrorDetails()
                 {
                     StatusCode = StatusCodes.Status500InternalServerError,
                     ErrorMessage = ex.Message
                 };
+
+                response.StatusCode = ex switch
+                {
+                    NotFoundException => StatusCodes.Status404NotFound,
+                    _ => StatusCodes.Status500InternalServerError,
+                };
+
+                context.Response.StatusCode = response.StatusCode;
+
                 await context.Response.WriteAsJsonAsync(response);
             }
 
