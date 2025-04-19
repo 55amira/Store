@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Services_Abstractions;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,9 @@ namespace Persentation
 
         [HttpGet] // GET: /api/Products 
 
-        public async Task<IActionResult> GetAllProducts(int? BrandId , int? TypeId, string? sort , int pageIndex=1 , int pageSize=5)
+        public async Task<IActionResult> GetAllProducts([FromQuery]ProductSpecificationParamters specParams)
         {
-            var result = await serviceManager.productService.GetAllProductsAsync(BrandId, TypeId,sort , pageIndex,pageSize);
+            var result = await serviceManager.productService.GetAllProductsAsync(specParams);
 
             if (result is null) return BadRequest(); // 400 
             return Ok(result); // 200 

@@ -1,0 +1,24 @@
+﻿using Domain.Models;
+using Shared;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Services.Specifications
+{
+    public class ProductWithCountSpecification : BaseSpecifications<Product,int>
+    {
+        public ProductWithCountSpecification(ProductSpecificationParamters specParams) :
+            base(
+                 P =>
+                 (string.IsNullOrEmpty(specParams.Sreach) || P.Name.ToLower().Contains(specParams.Sreach.ToLower())) &&
+                   (!specParams.BrandId.HasValue || P.BrandId == specParams.BrandId) &&
+                   (!specParams.TypeId.HasValue || P.TypeId == specParams.TypeId)
+                )
+        {
+
+        }
+    }
+}
