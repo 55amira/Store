@@ -21,7 +21,19 @@ namespace Store_Api.Middelware
             try
             {
                 await _next.Invoke(context);
-            }catch (Exception ex)
+
+                if (context.Response.StatusCode == StatusCodes.Status404NotFound)
+                {
+                    context.Response.ContentType = "application/json";
+                    var response = new ErrorDetails()
+                    {
+                        StatusCode = StatusCodes.Status404NotFound,
+                        ErrorMessage = $"End Point (context.Request.Path) is Not Found"
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                }
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex , ex.Message);
 
