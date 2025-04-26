@@ -10,5 +10,6 @@ namespace Shared.ErrorsModels
     {
         public string ErrorMessage { get; set; }
         public int StatusCode { get; set; }
+        public IEnumerable<String>? Errors { get; set; }
     }
 }

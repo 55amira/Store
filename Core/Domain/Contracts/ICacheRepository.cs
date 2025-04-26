@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Domain.Contracts
 {
-    public interface IDbInitializer
+    public interface ICacheRepository
     {
-        Task InitializerAsync ();
-        Task InitializerIdentityAsync ();
+        Task SetAsync (string key, object value , TimeSpan duration);
+        Task<string> GetAsync (string key);
     }
 }

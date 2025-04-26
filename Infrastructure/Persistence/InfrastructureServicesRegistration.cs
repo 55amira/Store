@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence.Data;
+using Persistence.Identity;
+using Persistence.Repositories;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -22,10 +24,16 @@ namespace Persistence
                 options.UseSqlServer(configuration.GetConnectionString("DefultConnection"));
             });
 
+            services.AddDbContext<StoreIdentityDbContext>(options =>
+            {
+                //options.UseSqlServer(builder.Configuration["ConnectionStrings:DefultConnection"]);
+                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"));
+            });
 
             services.AddScoped<IDbInitializer, Iniaitiazer>();   // Alloe DI For IDbInitializer
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IBasketRepository, IBasketRepository>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
+            services.AddScoped<ICacheRepository, CacheRepository>();
 
             services.AddSingleton<IConnectionMultiplexer>((ServiceProvider =>
                 {
