@@ -78,7 +78,7 @@ namespace Persentation
             var result = await serviceManager.productService.GetAlltypesAsync();
 
             if (result is null) return BadRequest(); // 400 
-            return Ok(result); // 200 
+            return Ok(result); // 200
 
         }
     }

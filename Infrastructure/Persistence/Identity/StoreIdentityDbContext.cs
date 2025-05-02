@@ -1,4 +1,4 @@
-﻿using Domain.Identity;
+﻿using Domain.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
